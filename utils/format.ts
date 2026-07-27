@@ -1,7 +1,11 @@
-export function formatDate(value: string | number | Date) {
-  const date = typeof value === "string" || typeof value === "number" ? new Date(value) : value;
-  return date.toLocaleString("en-US", {
-    dateStyle: "medium",
-    timeStyle: "short",
-  });
+export function truncate(text: string, length = 200) {
+  if (!text) return "";
+
+  return text.length > length
+    ? text.substring(0, length) + "..."
+    : text;
+}
+
+export function capitalize(text: string) {
+  return text.charAt(0).toUpperCase() + text.slice(1);
 }

@@ -1,8 +1,7 @@
 export interface Bill {
   id: string;
+  identifier: string;
   title: string;
-  state: string;
-  session: string;
-  summary?: string;
-  url?: string;
+  summary: string;
+  latest_action?: string;
 }

@@ -1,11 +1,4 @@
-import type { Bill } from "./bill";
-
-export type MessageRole = "user" | "assistant" | "system";
-
-export interface Message {
-  id: string;
-  role: MessageRole;
-  text: string;
-  sources?: Bill[];
-  createdAt?: string;
+export interface ChatMessage {
+  role: "user" | "assistant";
+  content: string;
 }
