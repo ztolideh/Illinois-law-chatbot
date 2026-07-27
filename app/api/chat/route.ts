@@ -1,33 +1,54 @@
-import { NextResponse } from "next/server";
-import OpenAI from "openai";
-import { buildChatPrompt } from "../../../lib/prompts";
+import { NextRequest } from "next/server";
+import { classifyQuestion } from "@/lib/classify";
+import { searchBills } from "@/lib/openstates";
+import { openai } from "@/lib/openai";
+import { ANSWER_PROMPT } from "@/lib/prompts";
 
-const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+export async function POST(req: NextRequest) {
+  try {
+    const body = await req.json();
+    const question = body.message;
 
-export async function POST(request: Request) {
-  const body = await request.json();
-  const question = body?.question?.trim();
+    const intent = await classifyQuestion(question);
 
-  if (!question) {
-    return NextResponse.json({ error: "Missing question in request body." }, { status: 400 });
+    let data: any = {};
+
+    if (intent.category === "bills") {
+      data = await searchBills(intent.searchTerm);
+    }
+
+    const answer = await openai.chat.completions.create({
+      model: "gpt-5-mini",
+      messages: [
+        {
+          role: "system",
+          content: ANSWER_PROMPT,
+        },
+        {
+          role: "user",
+          content: `
+User question:
+
+${question}
+
+Government data:
+
+${JSON.stringify(data, null, 2)}
+
+Explain this.
+`,
+        },
+      ],
+    });
+
+    return Response.json({
+      answer: answer.choices[0].message.content,
+      sources: data,
+    });
+  } catch (error) {
+    console.error(error);
+    return Response.json({
+      answer: "Sorry, there was an error processing your question.",
+    });
   }
-
-  if (!process.env.OPENAI_API_KEY) {
-    return NextResponse.json(
-      { error: "OpenAI API key is not configured in environment variables." },
-      { status: 500 }
-    );
-  }
-
-  const prompt = buildChatPrompt(question);
-
-  const response = await client.responses.create({
-    model: "gpt-4.1-mini",
-    input: prompt,
-    max_output_tokens: 600,
-  });
-
-  const text = response.output[0]?.content?.[0]?.text ?? ""
-
-  return NextResponse.json({ answer: text });
 }

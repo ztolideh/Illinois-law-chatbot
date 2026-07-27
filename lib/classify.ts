@@ -1,19 +1,25 @@
-export type Classification = "bill" | "statute" | "process" | "general";
+import { openai } from "./openai";
+import { CLASSIFICATION_PROMPT } from "./prompts";
 
-export function classifyQuestion(text: string): Classification {
-  const normalized = text.toLowerCase();
+export async function classifyQuestion(question: string) {
+  const response = await openai.chat.completions.create({
+    model: "gpt-5-mini",
+    messages: [
+      {
+        role: "system",
+        content: CLASSIFICATION_PROMPT,
+      },
+      {
+        role: "user",
+        content: question,
+      },
+    ],
+    response_format: {
+      type: "json_object",
+    },
+  });
 
-  if (/bill|house bill|senate bill|hb|sb|legislation/.test(normalized)) {
-    return "bill";
-  }
-
-  if (/statute|law|code|section|article/.test(normalized)) {
-    return "statute";
-  }
-
-  if (/process|committee|hearing|vote|session/.test(normalized)) {
-    return "process";
-  }
-
-  return "general";
+  return JSON.parse(
+    response.choices[0].message.content || "{}"
+  );
 }
