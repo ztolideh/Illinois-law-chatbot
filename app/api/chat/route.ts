@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { classifyQuestion } from "@/lib/classify";
 import { searchBills } from "@/lib/openstates";
-import { openai } from "@/lib/openai";
+import { genai } from "@/lib/genai";
 import { ANSWER_PROMPT } from "@/lib/prompts";
 
 export async function POST(req: NextRequest) {
@@ -17,16 +17,9 @@ export async function POST(req: NextRequest) {
       data = await searchBills(intent.searchTerm);
     }
 
-    const answer = await openai.chat.completions.create({
-      model: "gpt-5-mini",
-      messages: [
-        {
-          role: "system",
-          content: ANSWER_PROMPT,
-        },
-        {
-          role: "user",
-          content: `
+    const response = await genai.models.generateContent({
+      model: "gemini-3.5-flash-lite",
+      contents: `
 User question:
 
 ${question}
@@ -37,12 +30,16 @@ ${JSON.stringify(data, null, 2)}
 
 Explain this.
 `,
-        },
-      ],
+      config: {
+        systemInstruction: ANSWER_PROMPT,
+      },
     });
 
+    // Safely extract the response text using the text() getter
+    const answerText = response.text ? response.text : "No answer generated.";
+
     return Response.json({
-      answer: answer.choices[0].message.content,
+      answer: answerText,
       sources: data,
     });
   } catch (error) {
