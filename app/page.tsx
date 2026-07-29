@@ -12,10 +12,13 @@ export default function Home() {
                 ⚖️ Illinois Law · 2027 AI Interface
               </p>
               <h1 className="max-w-3xl text-4xl font-semibold leading-tight tracking-tight text-white sm:text-5xl">
-                Your modern Illinois law AI, built for fast answers, legislative insight, and a premium visual experience.
+                Your modern Illinois law AI, built for fast answers, legislative
+                insight, and a premium visual experience.
               </h1>
               <p className="max-w-2xl text-lg leading-8 text-slate-300 sm:text-xl">
-                Explore Illinois statutes, analyze bills, and get instant guidance in a polished conversational interface with futuristic UI details.
+                Explore Illinois statutes, analyze bills, and get instant
+                guidance in a polished conversational interface with futuristic
+                UI details.
               </p>
               <div className="grid gap-3 text-sm sm:grid-cols-3">
                 <span className="rounded-3xl border border-white/10 bg-slate-900/70 px-4 py-3 text-slate-200 shadow-sm">
@@ -23,9 +26,6 @@ export default function Home() {
                 </span>
                 <span className="rounded-3xl border border-white/10 bg-slate-900/70 px-4 py-3 text-slate-200 shadow-sm">
                   Illinois legal context
-                </span>
-                <span className="rounded-3xl border border-white/10 bg-slate-900/70 px-4 py-3 text-slate-200 shadow-sm">
-                  Modern glassmorphism UI
                 </span>
               </div>
             </div>
