@@ -51,8 +51,7 @@ export default function Chat() {
         ...prev,
         {
           role: "assistant",
-          content:
-            "Sorry, something went wrong while contacting the server.",
+          content: "Sorry, something went wrong while contacting the server.",
         },
       ]);
     }
@@ -71,10 +70,11 @@ export default function Chat() {
         </div>
         <div className="mt-6 max-w-3xl">
           <h2 className="text-4xl font-semibold tracking-tight text-white sm:text-5xl">
-            Conversations for Illinois law, reimagined in 2027 style.
+            Conversations for Illinois law, reimagined
           </h2>
           <p className="mt-4 text-slate-300 leading-8 sm:text-lg">
-            Get crisp, AI-driven insight on bills, statutes, and legal process with a premium glassmorphism chat interface.
+            Get crisp, AI-driven insight on bills, statutes, and legal process
+            with chat interface.
           </p>
         </div>
       </header>
