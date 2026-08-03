@@ -74,7 +74,7 @@ export default function Chat() {
           </h2>
           <p className="mt-4 text-slate-300 leading-8 sm:text-lg">
             Get crisp, AI-driven insight on bills, statutes, and legal process
-            with chat interface.
+            with chat interface. Start a conversation below...
           </p>
         </div>
       </header>
