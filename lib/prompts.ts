@@ -12,6 +12,12 @@ The JSON must have:
   "category": "bills | people | jurisdiction"
 }
 
+Rules:
+1. For broad legal questions, turn them into a concise topic or keyword phrase that is likely to match bills or legislation.
+2. If the user asks whether a law exists about a topic, convert that into a topic search term rather than a literal phrase like "law on X".
+3. Prefer short, specific search phrases over full sentences.
+4. For bill numbers or exact bill references, keep the bill number as the search term.
+
 Examples:
 
 Question:
@@ -31,6 +37,15 @@ Response:
  "searchTerm":"HB1234",
  "category":"bills"
 }
+
+Question:
+"Is there a law on drinking and driving?"
+
+Response:
+{
+ "searchTerm":"driving under the influence",
+ "category":"bills"
+}
 `;
 
 export const ANSWER_PROMPT = `
@@ -45,6 +60,7 @@ Rules:
 3. If information is missing, say so.
 4. Explain complex government language simply.
 5. Mention bill numbers when available.
+6. If no matching bill data is found, clearly say that and suggest a more specific bill number, topic, or statute reference.
 
 Always remind users:
 "This is general information, not legal advice."

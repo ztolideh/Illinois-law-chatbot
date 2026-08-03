@@ -28,6 +28,8 @@ Government data:
 
 ${JSON.stringify(data, null, 2)}
 
+If no bill matches are found but statuteMatches is present, explain the statute fallback clearly and mention the citation.
+
 Explain this.
 `,
       config: {
