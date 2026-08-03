@@ -10,9 +10,12 @@ export default function Home() {
           <div className="hero-card__body">
             <p className="hero-badge">⚖️ Illinois Law · AI Interface</p>
             <h1 className="hero-title">
+              illinoisLaw.ai
+            </h1>
+            <h2 className="hero-subtitle">
               Your modern Illinois law AI, built for fast answers, legislative
               insight, and a premium visual experience.
-            </h1>
+            </h2>
             <p className="hero-description">
               Explore Illinois statutes, analyze bills, and get instant
               guidance in a polished conversational interface with futuristic
