@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { classifyQuestion } from "@/lib/classify";
 import { searchBills } from "@/lib/openstates";
+import { searchIllinoisStatutes } from "@/lib/statutes";
 import { genai } from "@/lib/genai";
 import { ANSWER_PROMPT } from "@/lib/prompts";
 
@@ -15,6 +16,16 @@ export async function POST(req: NextRequest) {
 
     if (intent.category === "bills") {
       data = await searchBills(intent.searchTerm);
+
+      if (!data.results?.length && !data.statuteMatches?.length) {
+        const statuteData = await searchIllinoisStatutes(question);
+        if (statuteData.matches.length > 0) {
+          data = {
+            ...data,
+            statuteMatches: statuteData.matches,
+          };
+        }
+      }
     }
 
     const response = await genai.models.generateContent({

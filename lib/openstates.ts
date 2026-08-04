@@ -23,6 +23,22 @@ const STATUTE_FALLBACKS = [
   },
 ];
 
+const TOPIC_EXPANSIONS: Record<string, string[]> = {
+  "drinking and driving": ["driving under the influence", "dui", "impaired driving"],
+  "driving under the influence": ["dui", "impaired driving"],
+  "dui": ["driving under the influence", "impaired driving"],
+  "impaired driving": ["driving under the influence", "dui"],
+  "seat belt": ["seatbelt", "child restraint", "traffic safety"],
+  "seatbelt": ["seat belt", "child restraint", "traffic safety"],
+  "ai": ["artificial intelligence", "machine learning"],
+  "artificial intelligence": ["ai", "machine learning"],
+  "privacy": ["data privacy", "consumer privacy", "biometric privacy"],
+  "gun": ["firearms", "weapon", "firearm regulation"],
+  "minimum wage": ["wage", "labor", "employment law"],
+  "vaccines": ["public health", "immunization", "health policy"],
+  "rent": ["housing", "tenant rights", "eviction"],
+};
+
 function normalizeText(text: string) {
   return text
     .toLowerCase()
@@ -56,13 +72,12 @@ function buildSearchTerms(query: string) {
     if (topic) candidates.add(topic);
   }
 
-  if (/drinking|driving/i.test(normalized)) {
-    candidates.add("driving under the influence");
-    candidates.add("dui");
-    candidates.add("impaired driving");
-  }
+  const topicMatches = Object.keys(TOPIC_EXPANSIONS).filter((key) => normalized.includes(key));
+  topicMatches.forEach((key) => {
+    TOPIC_EXPANSIONS[key].forEach((expansion) => candidates.add(expansion));
+  });
 
-  return Array.from(candidates).slice(0, 5);
+  return Array.from(candidates).slice(0, 8);
 }
 
 function findStatuteFallback(query: string) {
