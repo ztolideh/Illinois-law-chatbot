@@ -10,7 +10,7 @@ export default function Chat() {
     {
       role: "assistant",
       content:
-        "Hello! 👋 I'm your Illinois Law AI Assistant. Ask me anything about Illinois laws, bills, or legislation.",
+        "Hello! 👋 I'm your Illinois Law AI Assistant. Ask me anything about Illinois laws, bills, or legislation. The responses may take at least 30 seconds to parse. Please be patient.",
     },
   ]);
 
