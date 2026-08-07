@@ -14,6 +14,17 @@ pnpm dev
 bun dev
 ```
 
+To run the scraper use:
+```bash
+npm run scrape -- --chapter=625
+```
+for specific chapters, either 625 or 720 at the moment. Or run
+
+```bash
+npm run scrape
+```
+for both chapters.
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
