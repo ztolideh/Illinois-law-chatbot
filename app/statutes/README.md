@@ -309,3 +309,44 @@ Example questions:
 This project combines structured legal data, semantic search, and large language models to create an intelligent Illinois law assistant.
 
 Instead of scraping statutes during each user request, the application maintains a local, searchable knowledge base of the Illinois Compiled Statutes. By combining this with OpenStates legislative data and Retrieval-Augmented Generation (RAG), the chatbot can answer questions about both current law and pending legislation quickly, accurately, and efficiently.
+
+
+# Current MVP structure
+
+```
+OpenStates API
+      +
+ILCS CSV
+      ↓
+OpenAI
+      ↓
+Chatbot
+```
+
+Next Steps to Improve It
+```
+OpenStates API
+      +
+ILCS CSV
+      ↓
+Embeddings / Vector Search
+      ↓
+Relevant statutes
+      ↓
+OpenAI
+```
+
+Production Version (if we ever get around to it)
+```
+OpenStates API
+      +
+Automated ILCS scraper
+      ↓
+PostgreSQL + pgvector
+      ↓
+Scheduled updates
+      ↓
+RAG
+      ↓
+OpenAI
+```
