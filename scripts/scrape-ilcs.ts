@@ -97,7 +97,7 @@ async function scrapeChapter(chapterNumber: string, chapterName: string, chapter
   const chapterLinks = extractActLinks(chapterHtml);
   const records: StatuteRecord[] = [];
 
-  for (const [index, actLink] of chapterLinks.slice(0, 10).entries()) {
+  for (const [index, actLink] of chapterLinks.slice(0, 100).entries()) {
     const actUrl = new URL(actLink.href, chapterUrl).toString();
     const printUrl = new URL(actUrl);
     printUrl.searchParams.set("Print", "True");
