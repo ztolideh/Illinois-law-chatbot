@@ -8,16 +8,9 @@ export default function SourceCard({
   subtitle,
 }: Props) {
   return (
-    <div className="border rounded-lg p-4 bg-white shadow-sm">
-
-      <div className="font-bold">
-        {title}
-      </div>
-
-      <div className="text-sm text-gray-500">
-        {subtitle}
-      </div>
-
+    <div className="source-card">
+      <div className="source-card-title">{title}</div>
+      <div className="source-card-subtitle">{subtitle}</div>
     </div>
   );
 }
