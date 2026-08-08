@@ -19,10 +19,12 @@ export async function POST(req: NextRequest) {
 
       if (!data.results?.length && !data.statuteMatches?.length) {
         const statuteData = await searchIllinoisStatutes(question);
-        if (statuteData.matches.length > 0) {
+        const statuteMatches = statuteData?.matches ?? [];
+
+        if (statuteMatches.length > 0) {
           data = {
             ...data,
-            statuteMatches: statuteData.matches,
+            statuteMatches,
           };
         }
       }
