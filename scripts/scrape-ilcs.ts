@@ -3,6 +3,7 @@ import path from "path";
 import axios from "axios";
 import * as cheerio from "cheerio";
 
+
 const OUTPUT_DIR = path.join(process.cwd(), "data");
 const OUTPUT_FILE = path.join(OUTPUT_DIR, "statutes.csv");
 
@@ -16,6 +17,10 @@ interface StatuteRecord {
   text: string;
   url: string;
 }
+
+//////////////////////////////////////////
+///////////Main Helper Functions/////////
+//////////////////////////////////////////
 
 function toText(value: string | null | undefined) {
   return (value || "").replace(/\s+/g, " ").trim();
@@ -83,6 +88,10 @@ function extractSectionLinks(html: string) {
   return links;
 }
 
+//////////////////////////////////////////
+///////////Main Scraping Functions////////
+//////////////////////////////////////////
+
 function extractSectionText(html: string) {
   const $ = cheerio.load(html);
   const bodyText = $("body").text();
@@ -133,6 +142,7 @@ async function scrapeChapter(chapterNumber: string, chapterName: string, chapter
   return records;
 }
 
+//This functions is meant to take the array of statutes we have and convert it into our CSV format file.
 function toCsv(records: StatuteRecord[]) {
   const header = ["chapter", "chapterName", "act", "actName", "section", "title", "text", "url"].join(",");
   const lines = records.map((record) => {
@@ -151,6 +161,8 @@ function toCsv(records: StatuteRecord[]) {
   return [header, ...lines].join("\n");
 }
 
+//Here is where we keep our main function that will be called when we run the script. It will call the scrapeChapter function for each chapter we want to scrape and then write the results to a CSV file.
+//It has the two chapters we are using to start with hardcoded in, we can add more later.
 async function main() {
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 
