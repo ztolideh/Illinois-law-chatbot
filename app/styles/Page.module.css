@@ -1,22 +1,10 @@
-html.app-html {
-  height: 100%;
-}
-
-body.app-body {
-  display: flex;
-  min-height: 100%;
-  flex-direction: column;
-  background-color: #020617;
-  color: #f8fafc;
-}
-
-.home-page {
+.homePage {
   min-height: 100vh;
   background-color: #020617;
   color: #f8fafc;
 }
 
-.home-page__background {
+.homePageBackground {
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -25,14 +13,14 @@ body.app-body {
     radial-gradient(circle at bottom right, rgba(168, 85, 247, 0.16), transparent 22%);
 }
 
-.home-page__content {
+.homePageContent {
   position: relative;
   max-width: 80rem;
   margin: 0 auto;
   padding: 2.5rem 1rem 2.5rem;
 }
 
-.hero-card {
+.heroCard {
   margin-bottom: 2.5rem;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 2rem;
@@ -42,13 +30,13 @@ body.app-body {
   padding: 2rem;
 }
 
-.hero-card__body {
+.heroCardBody {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.hero-badge {
+.heroBadge {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -65,7 +53,7 @@ body.app-body {
   box-shadow: 0 10px 30px -12px rgba(34, 211, 238, 0.2);
 }
 
-.hero-title {
+.heroTitle {
   max-width: 48rem;
   font-size: clamp(2rem, 3.8vw, 3rem);
   line-height: 1.1;
@@ -74,27 +62,27 @@ body.app-body {
   color: #ffffff;
 }
 
-.hero-description {
+.heroDescription {
   max-width: 42rem;
   font-size: 1.125rem;
   line-height: 1.8;
   color: #cbd5e1;
 }
 
-.hero-subtitle {
+.heroSubtitle {
   max-width: 45rem;
   font-size: 1.5rem;
   line-height: 1.8;
   color: #cbd5e1;
 }
 
-.hero-pills {
+.heroPills {
   display: grid;
   gap: 0.75rem;
   font-size: 0.95rem;
 }
 
-.hero-pill {
+.heroPill {
   display: block;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 1.5rem;
@@ -105,17 +93,17 @@ body.app-body {
 }
 
 @media (min-width: 640px) {
-  .home-page__content {
+  .homePageContent {
     padding-inline: 1.5rem;
   }
 
-  .hero-pills {
+  .heroPills {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (min-width: 1024px) {
-  .home-page__content {
+  .homePageContent {
     padding-inline: 2rem;
   }
 }
