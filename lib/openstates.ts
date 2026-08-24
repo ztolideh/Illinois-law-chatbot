@@ -7,22 +7,6 @@ const client = axios.create({
   },
 });
 
-const STATUTE_FALLBACKS = [
-  {
-    keywords: ["drinking and driving", "driving under the influence", "dui", "impaired driving"],
-    title: "Illinois Vehicle Code",
-    citation: "625 ILCS 5/11-501",
-    summary:
-      "Illinois generally prohibits driving under the influence and related impaired-driving conduct.",
-  },
-  {
-    keywords: ["seat belt", "seatbelt", "seat belts"],
-    title: "Illinois Vehicle Code",
-    citation: "625 ILCS 5/12-603.1",
-    summary: "Illinois requires seat belt use in many motor vehicles.",
-  },
-];
-
 const TOPIC_EXPANSIONS: Record<string, string[]> = {
   "drinking and driving": ["driving under the influence", "dui", "impaired driving"],
   "driving under the influence": ["dui", "impaired driving"],
@@ -80,19 +64,6 @@ function buildSearchTerms(query: string) {
   return Array.from(candidates).slice(0, 8);
 }
 
-function findStatuteFallback(query: string) {
-  const normalized = normalizeText(query);
-
-  for (const fallback of STATUTE_FALLBACKS) {
-    const matched = fallback.keywords.some((keyword) => normalized.includes(keyword));
-    if (matched) {
-      return fallback;
-    }
-  }
-
-  return null;
-}
-
 export async function searchBills(query: string) {
   const searchTerms = buildSearchTerms(query);
 
@@ -125,15 +96,6 @@ export async function searchBills(query: string) {
     } catch (error) {
       console.error("OpenStates error", error);
     }
-  }
-
-  const statuteFallback = findStatuteFallback(query);
-  if (statuteFallback) {
-    return {
-      results: [],
-      searchTerms,
-      statuteMatches: [statuteFallback],
-    };
   }
 
   return {
