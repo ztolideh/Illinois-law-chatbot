@@ -1,3 +1,5 @@
+import styles from "./styles/SourceCard.module.css";
+
 interface Props {
   title: string;
   subtitle: string;
@@ -8,9 +10,9 @@ export default function SourceCard({
   subtitle,
 }: Props) {
   return (
-    <div className="source-card">
-      <div className="source-card-title">{title}</div>
-      <div className="source-card-subtitle">{subtitle}</div>
+    <div className={styles.sourceCard}>
+      <div className={styles.sourceCardTitle}>{title}</div>
+      <div className={styles.sourceCardSubtitle}>{subtitle}</div>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import styles from "./styles/ChatInput.module.css";
 
 interface Props {
   onSend: (text: string) => void;
@@ -16,9 +17,9 @@ export default function ChatInput({ onSend }: Props) {
   }
 
   return (
-    <div className="chat-input-shell">
+    <div className={styles.chatInputShell}>
       <input
-        className="chat-input"
+        className={styles.chatInput}
         placeholder="Ask about Illinois laws, bills, or legislative updates..."
         value={text}
         onChange={(e) => setText(e.target.value)}
@@ -28,7 +29,7 @@ export default function ChatInput({ onSend }: Props) {
           }
         }}
       />
-      <button type="button" onClick={submit} className="chat-send-button">
+      <button type="button" onClick={submit} className={styles.chatSendButton}>
         Send
       </button>
     </div>

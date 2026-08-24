@@ -1,0 +1,52 @@
+.messageRow {
+	display: flex;
+}
+
+.messageRowUser {
+	justify-content: flex-end;
+}
+
+.messageRowAssistant {
+	justify-content: flex-start;
+}
+
+.messageBubble {
+	max-width: 36rem;
+	border-radius: 1.75rem;
+	padding: 1.25rem 1.5rem;
+	white-space: pre-wrap;
+	box-shadow: 0 30px 80px -40px rgba(15, 23, 42, 0.45);
+}
+
+.messageBubbleUser {
+	background: linear-gradient(90deg, #22d3ee 0%, #38bdf8 100%);
+	color: #020617;
+}
+
+.messageBubbleAssistant {
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	background: rgba(15, 23, 42, 0.95);
+	color: #f8fafc;
+}
+
+.messageMeta {
+	margin-bottom: 0.75rem;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	font-size: 0.75rem;
+	font-weight: 600;
+	letter-spacing: 0.22em;
+	text-transform: uppercase;
+	color: #94a3b8;
+}
+
+.messageBadge {
+	border-radius: 9999px;
+	background: rgba(30, 41, 59, 0.8);
+	padding: 0.25rem 0.5rem;
+}
+
+.messageText {
+	line-height: 1.75;
+}

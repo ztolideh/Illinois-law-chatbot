@@ -4,7 +4,7 @@ import { useState } from "react";
 import ChatInput from "./ChatInput";
 import Message from "./Message";
 import { ChatMessage } from "@/types/message";
-import "./componentsStyles.css";
+import styles from "./styles/Chat.module.css";
 
 export default function Chat() {
   const [messages, setMessages] = useState<ChatMessage[]>([
@@ -61,36 +61,36 @@ export default function Chat() {
   }
 
   return (
-    <div className="chat-shell">
-      <div className="chat-glow chat-glow-right" />
-      <div className="chat-glow chat-glow-left" />
+    <div className={styles.chatShell}>
+      <div className={`${styles.chatGlow} ${styles.chatGlowRight}`} />
+      <div className={`${styles.chatGlow} ${styles.chatGlowLeft}`} />
 
-      <header className="chat-header">
-        <div className="chat-badge">⚡ AI Legal Pulse</div>
-        <div className="chat-header-content">
-          <h2 className="chat-title">Conversations for Illinois law, reimagined</h2>
-          <p className="chat-description">
+      <header className={styles.chatHeader}>
+        <div className={styles.chatBadge}>⚡ AI Legal Pulse</div>
+        <div className={styles.chatHeaderContent}>
+          <h2 className={styles.chatTitle}>Conversations for Illinois law, reimagined</h2>
+          <p className={styles.chatDescription}>
             Get crisp, AI-driven insight on bills, statutes, and legal process
             with chat interface. Start a conversation below...
           </p>
         </div>
       </header>
 
-      <div className="chat-panel">
-        <div className="chat-panel-inner">
-          <div className="chat-messages">
+      <div className={styles.chatPanel}>
+        <div className={styles.chatPanelInner}>
+          <div className={styles.chatMessages}>
             {messages.map((message, index) => (
               <Message key={index} message={message} />
             ))}
             {loading && (
-              <div className="chat-loading">
-                <span className="chat-loading-dot" />
+              <div className={styles.chatLoading}>
+                <span className={styles.chatLoadingDot} />
                 <span>Analyzing Illinois legislation...</span>
               </div>
             )}
           </div>
 
-          <div className="chat-input-wrap">
+          <div className={styles.chatInputWrap}>
             <ChatInput onSend={sendMessage} />
           </div>
         </div>
