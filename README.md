@@ -31,6 +31,24 @@ npm run scrape
 ```
 for both chapters.
 
+## Vector database bootstrap
+
+Phase 1 adds a PostgreSQL database with the `pgvector` extension. Apply
+`db/migrations/001_vector_statutes.sql` to a PostgreSQL database, set
+`DATABASE_URL` and `GEMINI_API_KEY`, then index the current CSV snapshot:
+
+```bash
+npm run db:index-statutes
+```
+
+To validate CSV parsing and chunk counts without a database or API key:
+
+```bash
+npm run db:index-statutes -- --dry-run
+```
+
+The scraper and runtime statute search still use `data/statutes.csv` in this phase.
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
