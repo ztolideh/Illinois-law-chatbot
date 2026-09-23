@@ -102,4 +102,4 @@ export async function searchBills(query: string) {
     results: [],
     searchTerms,
   };
-}
+} 
