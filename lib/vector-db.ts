@@ -125,3 +125,24 @@ export async function closeDatabase() {
     pool = undefined;
   }
 }
+
+export async function getNearestChunks(
+  client: PoolClient,
+  queryEmbedding: number[],
+  limit = 10,
+) {
+  // Use cosine distance operator (<#>) since the HNSW index was created with vector_cosine_ops.
+  // Return both the raw distance and a simple score (1 - distance) for convenience.
+  const sql = `
+    SELECT id, document_id, chunk_index, content,
+      embedding <#> $1::vector AS distance,
+      1 - (embedding <#> $1::vector) AS score
+    FROM statute_chunks
+    ORDER BY embedding <#> $1::vector
+    LIMIT $2
+  `;
+
+  const values = [vectorLiteral(queryEmbedding), limit];
+  const result = await client.query(sql, values);
+  return result.rows;
+}
