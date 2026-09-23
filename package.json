@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "test": "tsx tests/vector-db.test.ts",
+    "test:integration": "tsx tests/integration/vector-db.integration.test.ts",
     "scrape": "tsx scripts/scrape-ilcs.ts",
     "db:index-statutes": "tsx scripts/index-statutes.ts"
   },
