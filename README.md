@@ -41,6 +41,41 @@ Phase 1 adds a PostgreSQL database with the `pgvector` extension. Apply
 npm run db:index-statutes
 ```
 
+Local development with Docker
+----------------------------
+
+You can run a local PostgreSQL with the `pgvector` extension using Docker Compose. This repository includes a `docker-compose.yml` that starts a `db` service using `ankane/pgvector`.
+
+Start the DB:
+
+```bash
+npm run db:dev:up
+```
+
+Set `DATABASE_URL` (bash / WSL):
+
+```bash
+export DATABASE_URL='postgres://postgres:postgres@localhost:5432/postgres'
+```
+
+Or PowerShell:
+
+```powershell
+$env:DATABASE_URL = 'postgres://postgres:postgres@localhost:5432/postgres'
+```
+
+Apply the migration:
+
+```bash
+npm run db:migrate
+```
+
+Run the integration test (requires `psql` on PATH):
+
+```bash
+npm run test:integration
+```
+
 To validate CSV parsing and chunk counts without a database or API key:
 
 ```bash
