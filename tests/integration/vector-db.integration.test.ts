@@ -67,7 +67,9 @@ async function run() {
     // fake embeddings (must match migration VECTOR dimension - default 768)
     const dim = Number(process.env.EMBEDDING_DIMENSIONS || 768);
     const embeddings = chunks.map((_, i) =>
-      Array.from({ length: dim }, (_, j) => (i === 0 && j === 0) || (i === 1 && j === 1) ? 1 : 0),
+      Array.from({ length: dim }, (_, j) =>
+        (i === 0 && j === 0) || (i === 1 && j === 1) ? 1 : 0,
+      ),
     );
 
     await replaceStatuteChunks(
@@ -78,11 +80,16 @@ async function run() {
     );
 
     // query with a vector similar to chunk 0
-    const queryEmbedding = Array.from({ length: dim }, (_, index) => index === 0 ? 1 : 0);
+    const queryEmbedding = Array.from({ length: dim }, (_, index) =>
+      index === 0 ? 1 : 0,
+    );
     const results = await getNearestChunks(client as any, queryEmbedding, 2);
 
     assert(results.length >= 1, "expected at least one result");
-    assert(results[0].chunk_index === 0, "expected the matching chunk to rank first");
+    assert(
+      results[0].chunk_index === 0,
+      "expected the matching chunk to rank first",
+    );
     console.log("Integration query returned:", results.slice(0, 2));
   });
 
