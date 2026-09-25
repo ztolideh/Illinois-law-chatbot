@@ -1,6 +1,6 @@
 import { genai } from "./genai";
 
-const EMBEDDING_MODEL = process.env.EMBEDDING_MODEL || "text-embedding-004";
+const EMBEDDING_MODEL = process.env.EMBEDDING_MODEL || "gemini-embedding-001";
 const EMBEDDING_DIMENSIONS = Number(process.env.EMBEDDING_DIMENSIONS || 768);
 const EMBEDDING_BATCH_SIZE = Number(process.env.EMBEDDING_BATCH_SIZE || 50);
 

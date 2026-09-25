@@ -9,10 +9,6 @@ import {
 import type { PoolClient } from "pg";
 
 const INPUT_FILE = path.join(process.cwd(), "data", "statutes.csv");
-const EMBEDDING_MODEL = process.env.EMBEDDING_MODEL || "text-embedding-004";
-const EMBEDDING_DIMENSIONS = Number(process.env.EMBEDDING_DIMENSIONS || 768);
-const EMBEDDING_BATCH_SIZE = 50;
-
 function readRecords() {
   if (!fs.existsSync(INPUT_FILE)) {
     throw new Error(`Statute CSV not found: ${INPUT_FILE}`);
