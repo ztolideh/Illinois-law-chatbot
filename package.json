@@ -11,7 +11,7 @@
     "test:integration": "tsx tests/integration/vector-db.integration.test.ts",
     "db:dev:up": "docker-compose up -d db",
     "db:dev:down": "docker-compose down",
-    "db:migrate": "psql $DATABASE_URL -f db/migrations/001_vector_statutes.sql",
+    "db:migrate": "tsx scripts/migrate-db.ts",
     "scrape": "tsx scripts/scrape-ilcs.ts",
     "db:index-statutes": "tsx scripts/index-statutes.ts"
   },

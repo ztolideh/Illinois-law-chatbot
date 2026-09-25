@@ -1,7 +1,7 @@
-import { spawnSync } from "child_process";
 import assert from "assert";
 import fs from "fs";
 import path from "path";
+import { Client } from "pg";
 import {
   withDatabase,
   closeDatabase,
@@ -29,11 +29,16 @@ async function run() {
   if (!fs.existsSync(migration))
     throw new Error(`Migration not found: ${migration}`);
 
-  // apply migration
-  const psql = spawnSync("psql", [process.env.DATABASE_URL!, "-f", migration], {
-    stdio: "inherit",
+  // Apply the migration through pg so the test does not require psql on PATH.
+  const migrationClient = new Client({
+    connectionString: process.env.DATABASE_URL,
   });
-  if (psql.status !== 0) throw new Error("Failed to apply migration");
+  try {
+    await migrationClient.connect();
+    await migrationClient.query(fs.readFileSync(migration, "utf8"));
+  } finally {
+    await migrationClient.end();
+  }
 
   await withDatabase(async (client) => {
     // create a simple statute and chunks
@@ -62,7 +67,7 @@ async function run() {
     // fake embeddings (must match migration VECTOR dimension - default 768)
     const dim = Number(process.env.EMBEDDING_DIMENSIONS || 768);
     const embeddings = chunks.map((_, i) =>
-      Array.from({ length: dim }, (_, j) => (i === 0 ? 0.1 : 0.2)),
+      Array.from({ length: dim }, (_, j) => (i === 0 && j === 0) || (i === 1 && j === 1) ? 1 : 0),
     );
 
     await replaceStatuteChunks(
@@ -73,10 +78,11 @@ async function run() {
     );
 
     // query with a vector similar to chunk 0
-    const queryEmbedding = Array.from({ length: dim }, () => 0.1);
+    const queryEmbedding = Array.from({ length: dim }, (_, index) => index === 0 ? 1 : 0);
     const results = await getNearestChunks(client as any, queryEmbedding, 2);
 
     assert(results.length >= 1, "expected at least one result");
+    assert(results[0].chunk_index === 0, "expected the matching chunk to rank first");
     console.log("Integration query returned:", results.slice(0, 2));
   });
 

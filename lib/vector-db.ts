@@ -93,7 +93,7 @@ export async function replaceStatuteChunks(
       const docPos = values.push(documentId);
       const idxPos = values.push(i);
       const contentPos = values.push(chunks[i].content);
-      const embedPos = values.push(embeddings[i]);
+      const embedPos = values.push(vectorLiteral(embeddings[i]));
 
       valuesClauseParts.push(
         `($${docPos}, $${idxPos}, $${contentPos}, encode(digest($${contentPos}, 'sha256'), 'hex'), $${embedPos}::vector)`,
@@ -131,14 +131,14 @@ export async function getNearestChunks(
   queryEmbedding: number[],
   limit = 10,
 ) {
-  // Use cosine distance operator (<#>) since the HNSW index was created with vector_cosine_ops.
+  // Use cosine distance operator (<=>) since the HNSW index was created with vector_cosine_ops.
   // Return both the raw distance and a simple score (1 - distance) for convenience.
   const sql = `
     SELECT id, document_id, chunk_index, content,
-      embedding <#> $1::vector AS distance,
-      1 - (embedding <#> $1::vector) AS score
+      embedding <=> $1::vector AS distance,
+      1 - (embedding <=> $1::vector) AS score
     FROM statute_chunks
-    ORDER BY embedding <#> $1::vector
+    ORDER BY embedding <=> $1::vector
     LIMIT $2
   `;
 
