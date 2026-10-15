@@ -26,7 +26,8 @@ class MockClient {
 }
 
 async function testReplaceStatuteChunks() {
-  const client = new MockClient() as unknown as PoolClient;
+  const mockClient = new MockClient();
+  const client = mockClient as unknown as PoolClient;
 
   const chunks = [{ content: "chunk a" }, { content: "chunk b" }] as any;
   const embeddings = [
@@ -37,7 +38,7 @@ async function testReplaceStatuteChunks() {
   await vectorDb.replaceStatuteChunks(client, "doc-1", chunks, embeddings);
 
   // ensure BEGIN, DELETE, INSERT, COMMIT were called (order may vary in mocks)
-  const texts = client.queries.map((q) =>
+  const texts = mockClient.queries.map((q) =>
     (q.text || "").toString().trim().toUpperCase(),
   );
   assert(
@@ -61,12 +62,13 @@ async function testReplaceStatuteChunks() {
 }
 
 async function testGetNearestChunks() {
-  const client = new MockClient() as unknown as PoolClient;
+  const mockClient = new MockClient();
+  const client = mockClient as unknown as PoolClient;
   const embedding = [0.1, 0.2];
 
   await vectorDb.getNearestChunks(client, embedding, 5);
 
-  const selectQuery = client.queries.find(
+  const selectQuery = mockClient.queries.find(
     (q) =>
       q.text.toUpperCase().includes("SELECT") &&
       q.text.toUpperCase().includes("STATUTE_CHUNKS"),

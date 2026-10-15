@@ -83,13 +83,28 @@ async function run() {
     const queryEmbedding = Array.from({ length: dim }, (_, index) =>
       index === 0 ? 1 : 0,
     );
+    const storedMatch = await client.query(
+      `SELECT chunk_index, embedding <=> $1::vector AS distance
+       FROM statute_chunks
+       WHERE document_id = $2
+       ORDER BY embedding <=> $1::vector
+       LIMIT 1`,
+      [`[${queryEmbedding.join(",")}]`, documentId],
+    );
+    assert(
+      Number(storedMatch.rows[0]?.distance) === 0,
+      "expected test vector to be stored exactly",
+    );
+    // The test verifies exact ranking independently of approximate HNSW traversal.
+    await client.query("SET enable_indexscan = off");
     const results = await getNearestChunks(client as any, queryEmbedding, 2);
 
     assert(results.length >= 1, "expected at least one result");
     assert(
-      results[0].chunk_index === 0,
+      results[0].document_id === documentId && results[0].chunk_index === 0,
       "expected the matching chunk to rank first",
     );
+    assert(Number(results[0].distance) === 0, "expected exact cosine match");
     console.log("Integration query returned:", results.slice(0, 2));
   });
 

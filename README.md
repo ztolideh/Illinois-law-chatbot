@@ -21,14 +21,17 @@ bun dev
 ```
 
 To run the scraper use:
+
 ```bash
 npm run scrape -- --chapter=625
 ```
+
 for specific chapters, either 625 or 720 at the moment. Or run
 
 ```bash
 npm run scrape
 ```
+
 for both chapters.
 
 ## Vector database bootstrap
@@ -41,8 +44,7 @@ Phase 1 adds a PostgreSQL database with the `pgvector` extension. Apply
 npm run db:index-statutes
 ```
 
-Local development with Docker
-----------------------------
+## Local development with Docker
 
 You can run a local PostgreSQL with the `pgvector` extension using Docker Compose. This repository includes a `docker-compose.yml` that starts a `db` service using `ankane/pgvector`.
 
@@ -70,11 +72,22 @@ Apply the migration:
 npm run db:migrate
 ```
 
-Run the integration test (requires `psql` on PATH):
+Run the integration test:
 
 ```bash
 npm run test:integration
 ```
+
+To exercise the full database indexing pipeline without using Gemini credits,
+index with deterministic mock vectors:
+
+```bash
+npm run db:index-statutes:mock
+```
+
+Mock vectors only validate ingestion and retrieval plumbing. Do not use them to
+evaluate semantic search quality. Re-index with Gemini embeddings before relying
+on semantic search; embeddings from different providers/models should not be mixed.
 
 To validate CSV parsing and chunk counts without a database or API key:
 

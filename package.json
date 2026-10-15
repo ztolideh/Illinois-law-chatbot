@@ -7,11 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "tsx tests/vector-db.test.ts",
+    "test": "tsx tests/vector-db.test.ts && tsx tests/embeddings.test.ts",
     "test:integration": "tsx tests/integration/vector-db.integration.test.ts",
     "db:dev:up": "docker-compose up -d db",
     "db:dev:down": "docker-compose down",
     "db:migrate": "tsx scripts/migrate-db.ts",
+    "db:index-statutes:mock": "tsx scripts/index-statutes.ts --mock-embeddings",
     "scrape": "tsx scripts/scrape-ilcs.ts",
     "db:index-statutes": "tsx scripts/index-statutes.ts"
   },

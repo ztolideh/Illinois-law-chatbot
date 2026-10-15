@@ -26,12 +26,18 @@ async function indexRecord(client: PoolClient, record: StatuteRecord) {
   const { replaceStatuteChunks, upsertStatute } =
     await import("../lib/vector-db");
   const { embedTexts } = await import("../lib/embeddings");
+  const provider = process.argv.includes("--mock-embeddings")
+    ? "mock"
+    : undefined;
   const documentId = await upsertStatute(
     client,
     record,
     contentHash(JSON.stringify(record)),
   );
-  const embeddings = await embedTexts(chunks.map((chunk) => chunk.content));
+  const embeddings = await embedTexts(
+    chunks.map((chunk) => chunk.content),
+    { provider },
+  );
   await replaceStatuteChunks(client, documentId, chunks, embeddings);
   return true;
 }
@@ -39,6 +45,7 @@ async function indexRecord(client: PoolClient, record: StatuteRecord) {
 async function main() {
   const records = readRecords();
   const dryRun = process.argv.includes("--dry-run");
+  const mockEmbeddings = process.argv.includes("--mock-embeddings");
   const uniqueRecords = Array.from(
     new Map(
       records.map((record) => [contentHash(JSON.stringify(record)), record]),
@@ -76,6 +83,11 @@ async function main() {
   }
 
   console.log(`Indexed ${indexed} statute records from ${INPUT_FILE}`);
+  if (mockEmbeddings) {
+    console.warn(
+      "Indexed with mock embeddings. These vectors are for testing only, not semantic search.",
+    );
+  }
 }
 
 main().catch((error) => {
